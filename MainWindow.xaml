@@ -1,0 +1,170 @@
+﻿<!--
+    Copyright (C) 2021 - Mywk.Net
+    Licensed under the EUPL, Version 1.2
+    You may obtain a copy of the Licence at: https://joinup.ec.europa.eu/community/eupl/og_page/eupl
+    Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-->
+
+<local:AcrylicWindow x:Class="Process_Affinity_Utility.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Process_Affinity_Utility" Icon="icon.ico" Closing="MainWindow_OnClosing"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="False" LocationChanged="MainWindow_OnLocationChanged" SizeChanged="Window_SizeChanged"
+        Title="Process Affinity Utility" Height="385" Width="520" MinHeight="385" MinWidth="520" MouseDown="Window_MouseDown" Background="#AFFFFFFF" ResizeMode="CanResizeWithGrip" >
+    <WindowChrome.WindowChrome>
+        <WindowChrome ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+    <Border BorderThickness="1" Loaded="FrameworkElement_OnLoaded" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="30"/>
+                <RowDefinition  Height="*"/>
+                <RowDefinition Height="28" />
+                <RowDefinition  Height="30"/>
+            </Grid.RowDefinitions>
+
+            <!-- A bit QND :) -->
+            <Grid Name="WindowTitleGrid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="#30274C" Height="30" >
+                <Label Content="Process Affinity Utility" Foreground="White" />
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#33EEEEEE" />
+                            <Setter Property="Foreground" Value="#CCC" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button" >
+                                        <Border MinHeight="25" Padding="5" Margin="0" CornerRadius="0" 
+                                        Background="{TemplateBinding Background}" BorderBrush="Transparent" 
+                                        BorderThickness="0" >
+                                            <ContentPresenter x:Name="contentPresenter" 
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                                      Content="{TemplateBinding Content}" 
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Margin="{TemplateBinding Padding}" 
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#DDD" />
+                                    <Setter Property="Foreground" Value="#888" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#CCC" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Button WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" Margin="0 0 36 0" Click="MinimizeButton_OnClick" ToolTip="Minimize" Content="−" FontWeight="Black" FontSize="14" Width="35" Height="30" />
+                    <Button WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" Margin="0 0 72 0" Click="HideToTrayButton_Click" ToolTip="Hide to tray" Content="🗕" Width="35" Height="30" />
+                    <Button Name="RunAsAdministratorButton" WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" Margin="0 0 108 0" Click="OpenAsAdministratorBase_OnClick" ToolTip="Open as administrator" Content="*" Width="35" Height="30" />
+                </Grid>
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#33EEEEEE" />
+                            <Setter Property="Foreground" Value="#CCC" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button" >
+                                        <Border MinHeight="25" Padding="5" Margin="0" CornerRadius="0" 
+                                        Background="{TemplateBinding Background}" BorderBrush="Transparent" 
+                                        BorderThickness="0" >
+                                            <ContentPresenter x:Name="contentPresenter" 
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                                      Content="{TemplateBinding Content}" 
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      Margin="{TemplateBinding Padding}" 
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Red" />
+                                    <Setter Property="Foreground" Value="#FFF" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#CCC" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+                    <Button WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right" Margin="0" Click="CloseButton_OnClick" ToolTip="Close" Content="✖" Width="35" Height="30" />
+                </Grid>
+            </Grid>
+
+            <Grid Margin="10 5 10 0" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="1.1*" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="1.9*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <Label Margin="-5 0 0 0"  Grid.Column="0" Content="Processes" FontWeight="DemiBold" />
+                <Label Margin="-5 0 0 0" Grid.Column="2" Content="Cores" FontWeight="DemiBold" />
+                <Label Margin="-5 0 0 0" Grid.Column="4" Content="Profiles" FontWeight="DemiBold" />
+
+                <Grid Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Height="20" Margin="0 0 5 0" >
+                    <Button Name="SelectAllCoresButton" HorizontalAlignment="Left" Width="20" Padding="0" FontSize="14" Margin="0 0 22 0" Content="☒" VerticalContentAlignment="Top" ToolTip="Select all" IsEnabled="False" Click="SelectAllButton_OnClick" />
+                    <Button Name="DeselectAllCoresButton" HorizontalAlignment="Right" Width="20" FontWeight="Bold" FontSize="14" Padding="0" Content="☐" VerticalContentAlignment="Top" ToolTip="Deselect all" IsEnabled="False" Click="DeselectAllButton_OnClick" />
+                </Grid>
+
+                <Button Grid.Column="4" Grid.Row="0" Name="SelectAllProfilesButton" HorizontalAlignment="Right" Width="20" Padding="0" FontSize="14" Margin="0 5 5 2" Content="☒" VerticalContentAlignment="Top" ToolTip="Select all" Click="SelectAllProfilesButton_OnClick" />
+
+                <ListBox Grid.Row="1" Grid.Column="0" Name="ProcessesListBox" Background="Transparent" SelectionChanged="ProcessesListBox_OnSelectionChanged"  Margin="0 -2 0 0"/>
+                <ListBox Grid.Row="1" Grid.Column="2" Name="CoresListBox" IsEnabled="False" SelectionChanged="CoresListBox_OnSelectionChanged" Background="Transparent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0 -2 0 0" />
+                <ListBox Grid.Row="1" Grid.Column="4" Name="ProfilesListBox" SelectionMode="Extended" Background="Transparent" SelectionChanged="ProfilesListBox_OnSelectionChanged" Margin="0 -2 0 0" />
+
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Button HorizontalAlignment="Left" Width="30" Padding="0" Margin="0 0 5 0" Content="🗘" FontWeight="Black" FontSize="16" ToolTip="Refresh" Click="refreshButton_OnClick" />
+                    <CheckBox Name="WindowTitleCheckBox" Margin="40 0 0 0" Content="Window title" VerticalAlignment="Center" HorizontalAlignment="Left" Unchecked="WindowTitleCheckBox_OnCheckedUnchecked" Checked="WindowTitleCheckBox_OnCheckedUnchecked" />
+                </Grid>
+
+                <Grid Grid.Column="2" Grid.Row="3" HorizontalAlignment="Stretch" >
+                    <Button Name="ApplyButton" HorizontalAlignment="Left" Width="30" Padding="0" Margin="0 0 5 0" Content="✔" ToolTip="Apply" IsEnabled="False" Click="ApplyButton_OnClick" />
+                    <Button Name="AddProfileButton" HorizontalAlignment="Right" Width="30" FontWeight="Bold" Padding="0" Content="➕" ToolTip="Add as a profile" IsEnabled="False" Click="AddProfileButton_OnClick" />
+                </Grid>
+
+                <Grid Grid.Column="4" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <CheckBox Name="AutoApplyCheckBox" Margin="20 0 0 0" Content="Auto-apply" VerticalAlignment="Center" HorizontalAlignment="Left" Unchecked="AutoApplyCheckBox_OnCheckedUnchecked" Checked="AutoApplyCheckBox_OnCheckedUnchecked" />
+                    <Button Name="ApplyProfileButton" HorizontalAlignment="Right" Width="30" Padding="0" Margin="0 0 35 0" Content="✔" ToolTip="Apply profile" IsEnabled="False" Click="ApplyProfileButton_OnClick" />
+                    <Button Name="RemoveProfileButton" HorizontalAlignment="Right" Width="30" FontWeight="Bold" Padding="0" Content="➖" ToolTip="Remove profile" IsEnabled="False" Click="RemoveProfileButton_OnClick" />
+                </Grid>
+            </Grid>
+
+            <Label Grid.Column="0" Grid.Row="2" Name="WarningLabel" VerticalAlignment="Bottom" />
+
+            <Label x:Name="BottomLabel" Grid.Row="3" Cursor="Hand" MouseLeftButtonDown="BottomLabel_OnMouseLeftButtonDown" VerticalAlignment="Bottom" Margin="0 0 5 5" HorizontalAlignment="Right" Content="Well hello there fellow programmer!">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Setter Property="Foreground" Value="{StaticResource WebSiteColorBrush}" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource WebSiteMouseOverColorBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+            <Label x:Name="UpdateLabel" Grid.Row="3" FontSize="13" Visibility="Hidden" Foreground="{StaticResource UpdateColorBrush}" Margin="5 0 0 5" Content="There is an update available." HorizontalAlignment="Left" Cursor="Hand" VerticalAlignment="Bottom" MouseLeftButtonDown="UpdateLabel_OnMouseLeftButtonDown" />
+
+        </Grid>
+    </Border>
+</local:AcrylicWindow>
